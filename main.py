@@ -11,11 +11,16 @@ from tkinter import Tk, Label
 from tkinter import ttk
 from tkinter import filedialog
 import database
+# Take in user credentials or create database
 
 name = input("What is your username?: ")
 password = input("What is your password?: ")
 
+# Check to see if user is in approved User List in Database
+
 user = database.checkUser(name, password)
+
+# If user is not in Database, ask for admin permission to create new user
 if user == False:
     createUser = input("User not recognized. Would you like to create a new user? (Admin Privileges Required)")
     if(createUser == "yes"):
@@ -23,11 +28,14 @@ if user == False:
         adminCheck = database.checkUser("admin", name)
         if adminCheck == False:
             print("Incorrect password. Exiting.")
-            exit()
+            exit()         
         elif adminCheck == True:
             name = input("What is your username?: ")
             password = input("What is your password?: ")
             database.addUser(name, password)
+            
+# If User is authenticated, run program
+
 elif user == True:
     print("User authenticated. Access Granted.")
 
